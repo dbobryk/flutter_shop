@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/models/providers/product.dart';
+import 'package:flutter_complete_guide/providers/product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -49,8 +49,25 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
+  void deleteProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+
+  void updateProduct(String id, Product updatedProduct) {
+    final productIndex = _items.indexWhere((element) => element.id == id);
+    _items[productIndex] = updatedProduct;
+  }
+
   void addProduct(Product product) {
-    // _items.add(product);
+    final newProduct = Product(
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      id: DateTime.now().toString(),
+    );
+    _items.add(newProduct);
     notifyListeners();
   }
 }
